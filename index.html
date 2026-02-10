@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MA.AKT. - Coming Soon</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f4f4f4; /* Lichte achtergrond */
+            color: #1a1f2c; /* Donkerblauw van je logo */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* De kabel waaraan het logo hangt */
+        .rope {
+            width: 2px;
+            height: 0px;
+            background-color: #333;
+            animation: dropRope 2s ease-out forwards;
+            position: relative;
+        }
+
+        /* Container voor het logo om te wiegen */
+        .logo-container {
+            transform-origin: top center;
+            animation: swing 3s ease-in-out infinite alternate;
+            margin-top: -5px; /* Aansluiten op de kabel */
+            opacity: 0; /* Begin onzichtbaar */
+            animation: appear 0.5s forwards 1.5s, swing 4s ease-in-out infinite alternate 1.5s;
+        }
+
+        /* Jouw Logo */
+        .logo-img {
+            width: 250px; /* Pas aan als je hem groter/kleiner wilt */
+            height: auto;
+            border-radius: 8px; /* Klein rondje aan de hoeken */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .content {
+            margin-top: 50px;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards 2.5s;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: #ff9f43; /* De oranje kleur uit je smiley */
+            font-weight: bold;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 25px;
+            background-color: #1a1f2c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .contact-btn:hover {
+            background-color: #ff9f43; /* Wordt oranje als je eroverheen gaat */
+            color: white;
+        }
+
+        /* Animaties */
+        @keyframes dropRope {
+            0% { height: 0; }
+            100% { height: 150px; }
+        }
+
+        @keyframes appear {
+            to { opacity: 1; }
+        }
+
+        @keyframes swing {
+            0% { transform: rotate(3deg); }
+            100% { transform: rotate(-3deg); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="rope"></div>
+
+    <div class="logo-container">
+        <img src="logo.jpg" alt="MA.AKT Logo" class="logo-img">
+    </div>
+
+    <div class="content">
+        <h1>We bouwen aan <span class="highlight">inzicht.</span></h1>
+        <p>
+            MA.AKT. brengt data tot leven met Power BI & AI.<br>
+            Nog heel even geduld, we zetten de laatste puntjes op de i.
+        </p>
+        
+        <a href="mailto:maureno@ma-akt.nl" class="contact-btn">Stuur een bericht</a>
+    </div>
+
+</body>
+</html>

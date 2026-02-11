@@ -8,81 +8,260 @@
     <link rel="icon" type="image/png" href="logo.png">
 
     <style>
-        /* High-end Apple vibe reset */
-        body, html {
-            height: 100%;
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #ffffff; /* Puur wit */
-            color: #1d1d1f; /* Apple's 'bijna zwart' */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        
-        .container {
-            max-width: 600px;
-            padding: 40px;
+        /* --- 1. CORE SETTINGS & RESET --- */
+        :root {
+            --brand-orange: #FF751F;
+            --brand-dark: #1d1d1f;
+            --brand-gray: #86868b;
+            --bg-color: #fbfbfd; /* Heel licht grijs, typisch Apple */
         }
 
-        /* Het logo strak en niet te groot */
-        img.logo {
-            width: 120px;
-            height: auto;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--brand-dark);
+            overflow: hidden; /* Voorkomt scrollbalken door animaties */
+        }
+
+        /* --- 2. ACHTERGROND SMILEY PATROON --- */
+        /* Dit creëert de zwevende smileys zonder extra plaatje */
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03; /* Zeer subtiel */
+            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="%23FF751F" stroke-width="4" fill="none"/><circle cx="35" cy="40" r="4" fill="%23FF751F"/><circle cx="65" cy="40" r="4" fill="%23FF751F"/><path d="M 30 60 Q 50 80 70 60" stroke="%23FF751F" stroke-width="4" fill="none" stroke-linecap="round"/></svg>');
+            background-size: 150px 150px; /* Grootte van de smileys */
+            animation: floatBackground 60s linear infinite;
+        }
+
+        @keyframes floatBackground {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        /* --- 3. LAYOUT CONTAINER --- */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* --- 4. HET LOGO MET GLOW --- */
+        .logo-container {
+            position: relative;
             margin-bottom: 40px;
+            animation: floatLogo 6s ease-in-out infinite;
+        }
+
+        img.logo {
+            width: 140px; /* Groter en prominenter */
+            height: auto;
+            position: relative;
+            z-index: 2;
+            /* Zorg dat het logo mooi rond is als het vierkant is */
+            border-radius: 24px; 
+        }
+
+        /* De oranje gloed achter het logo */
+        .logo-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: var(--brand-orange);
+            filter: blur(60px);
+            opacity: 0.4;
+            z-index: 1;
+            border-radius: 50%;
+            animation: pulseGlow 4s infinite alternate;
+        }
+
+        /* --- 5. TYPOGRAFIE & STATUS --- */
+        .status-pill {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(255, 117, 31, 0.1); /* Oranje tintje */
+            border: 1px solid rgba(255, 117, 31, 0.2);
+            border-radius: 50px;
+            color: var(--brand-orange);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 4rem; /* Hero grootte */
             font-weight: 700;
-            margin: 0 0 20px 0;
-            letter-spacing: -0.5px;
+            letter-spacing: -2px; /* Apple style tight tracking */
+            margin: 0 0 16px 0;
+            background: linear-gradient(135deg, #1d1d1f 0%, #4a4a4a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .tagline {
             font-size: 1.5rem;
+            color: var(--brand-gray);
             font-weight: 400;
-            color: #86868b;
+            max-width: 600px;
+            line-height: 1.4;
+            margin: 0 auto 60px auto;
+        }
+
+        /* --- 6. COUNTDOWN TIMER --- */
+        .countdown {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
             margin-bottom: 60px;
         }
 
-        .status {
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #0066CC;
-            margin-bottom: 20px;
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .contact a {
-            color: #1d1d1f;
-            text-decoration: none;
-            border-bottom: 1px solid #d2d2d7;
-            padding-bottom: 2px;
-            transition: border-color 0.3s ease;
+        .time-value {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--brand-dark);
+            font-variant-numeric: tabular-nums; /* Voorkomt verspringen van cijfers */
         }
-        
-        .contact a:hover {
-            border-color: #1d1d1f;
+
+        .time-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--brand-gray);
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        /* --- 7. BUTTONS & CONTACT --- */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 14px 32px;
+            background-color: var(--brand-dark);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            background-color: var(--brand-orange); /* Hover naar brand color */
+            box-shadow: 0 15px 40px rgba(255, 117, 31, 0.3);
+        }
+
+        /* --- ANIMATIES --- */
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulseGlow {
+            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.9); }
+            100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Mobiele aanpassingen */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .tagline { font-size: 1.1rem; padding: 0 20px; }
+            .countdown { gap: 15px; }
+            .time-value { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="logo.png" alt="MA.AKT. Logo" class="logo">
+    <div class="background-pattern"></div>
+
+    <div class="wrapper">
         
-        <div class="status">Coming Soon</div>
-        <h1>MA.AKT.</h1>
-        <p class="tagline">Maak jouw werkzaamheden efficienter, professioneler en goedkoper.</p>
-        
-        <div class="contact">
-            <p>Lancering: 9 Maart 2026<br><br>
-            <a href="mailto:maureno112@gmail.com">Contact opnemen</a></p>
+        <div class="logo-container">
+            <div class="logo-glow"></div>
+            <img src="logo.png" alt="MA.AKT. Logo" class="logo">
         </div>
+
+        <div class="status-pill">Under Construction</div>
+
+        <h1>MA.AKT.</h1>
+        <p class="tagline">Efficiënter. Professioneler. Goedkoper.<br>Ik bouw aan de nieuwe standaard.</p>
+
+        <div class="countdown" id="countdown">
+            <div class="time-unit">
+                <span class="time-value" id="days">00</span>
+                <span class="time-label">Dagen</span>
+            </div>
+            <div class="time-unit">
+                <span class="time-value" id="hours">00</span>
+                <span class="time-label">Uur</span>
+            </div>
+            <div class="time-unit">
+                <span class="time-value" id="minutes">00</span>
+                <span class="time-label">Min</span>
+            </div>
+        </div>
+
+        <a href="mailto:maureno112@gmail.com" class="cta-button">Neem alvast contact op</a>
+
+        <p style="margin-top: 40px; font-size: 0.8rem; color: #ccc;">Lancering: 9 Maart 2026</p>
     </div>
+
+    <script>
+        // De datum van lancering
+        const launchDate = new Date("March 9, 2026 00:00:00").getTime();
+
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = launchDate - now;
+
+            // Berekeningen
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            // Zet in de HTML
+            document.getElementById("days").innerText = days;
+            document.getElementById("hours").innerText = hours;
+            document.getElementById("minutes").innerText = minutes;
+
+            // Als de datum bereikt is
+            if (distance < 0) {
+                clearInterval(timer);
+                document.querySelector('.status-pill').innerText = "LIVE NU";
+                document.querySelector('.countdown').style.display = "none";
+            }
+        }, 1000);
+    </script>
 
 </body>
 </html>

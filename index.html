@@ -23,18 +23,20 @@
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--brand-dark);
-            overflow: hidden;
+            /* AANPASSING: Standaard scrollen toestaan als het nodig is */
+            overflow-x: hidden; 
+            overflow-y: auto;
         }
 
         /* --- 2. LAYOUT CONTAINER --- */
         .wrapper {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: center; /* Centreert verticaal op grote schermen */
             align-items: center;
-            height: 100%;
+            min-height: 100vh; /* Zorgt dat het minstens het hele scherm vult */
             text-align: center;
-            padding: 20px;
+            padding: 40px 20px; /* Iets meer ruimte rondom voor mobiel */
             position: relative;
         }
 
@@ -71,7 +73,7 @@
         .status-pill {
             display: inline-block;
             padding: 8px 16px;
-            background: rgba(255, 117, 31, 0.1); /* Oranje tintje */
+            background: rgba(255, 117, 31, 0.1);
             border: 1px solid rgba(255, 117, 31, 0.2);
             border-radius: 50px;
             color: var(--brand-orange);
@@ -84,7 +86,6 @@
             -webkit-backdrop-filter: blur(10px);
         }
 
-        /* Klasse voor als we live zijn */
         .status-pill.live {
             background: var(--brand-orange);
             color: white;
@@ -93,13 +94,14 @@
         }
 
         h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2.5rem, 6vw, 4.5rem); /* Iets groter bereik */
             font-weight: 700;
             letter-spacing: -2px;
             margin: 0 0 16px 0;
             background: linear-gradient(135deg, #1d1d1f 0%, #4a4a4a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.1;
         }
 
         .tagline {
@@ -117,6 +119,7 @@
             gap: 25px;
             justify-content: center;
             margin-bottom: 50px;
+            flex-wrap: wrap; /* Zorgt dat het niet breekt op hele kleine schermen */
         }
 
         .time-unit {
@@ -148,7 +151,7 @@
             align-items: center;
             padding: 16px 36px;
             background-color: var(--brand-dark);
-            color: white;
+            color: white !important; /* Forceer wit, ook na bezoek */
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
@@ -161,6 +164,16 @@
             transform: translateY(-3px);
             background-color: var(--brand-orange);
             box-shadow: 0 15px 30px rgba(255, 117, 31, 0.3);
+        }
+
+        /* AANPASSING: Zorgt dat de knop niet oranje blijft na klikken */
+        .cta-button:visited, .cta-button:active, .cta-button:focus {
+            color: white;
+            outline: none;
+        }
+        /* Alleen op focus/active binnenhouden we de donkere kleur tenzij hover */
+        .cta-button:not(:hover):focus {
+            background-color: var(--brand-dark); 
         }
 
         .social-link {
@@ -196,6 +209,14 @@
         @keyframes pulseGlow {
             0% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); }
             100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Mobiele fix: forceer scrollen op kleine schermen */
+        @media (max-height: 800px) {
+            .wrapper {
+                justify-content: flex-start; /* Begin bovenaan in plaats van midden */
+                padding-top: 60px;
+            }
         }
     </style>
 </head>
@@ -246,38 +267,23 @@
             const now = new Date().getTime();
             const distance = launchDate - now;
 
-            // Berekeningen
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-            // Check of we nog aan het aftellen zijn
             if (distance > 0) {
-                // Hier voegen we de 'leading zero' toe met padStart(2, '0')
-                // Dit maakt van '8' een '08'
                 document.getElementById("days").innerText = String(days).padStart(2, '0');
                 document.getElementById("hours").innerText = String(hours).padStart(2, '0');
                 document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
             } else {
-                // Als de tijd om is:
                 clearInterval(timer);
-                
-                // Verberg de countdown klok
                 document.getElementById('countdown').style.display = "none";
-                
-                // Update de status badge naar 'LIVE NU' met oranje kleur
                 const statusPill = document.getElementById('statusPill');
                 statusPill.innerText = "MA.AKT. IS LIVE";
-                statusPill.classList.add('live'); // Voegt de oranje styling toe
-
-                // Verander de tekst onder de titel
+                statusPill.classList.add('live');
                 document.querySelector('.tagline').innerHTML = "De transformatie is begonnen.<br>Welkom bij MA.AKT.";
-                
-                // Pas de knop aan
                 const btn = document.querySelector('.cta-button');
                 btn.innerText = "Bekijk diensten";
-                // Je kunt hier later de href aanpassen naar je echte homepage
-                // btn.href = "/home"; 
             }
         }, 1000);
     </script>

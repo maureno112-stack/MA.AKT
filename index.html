@@ -13,44 +13,20 @@
             --brand-orange: #FF751F;
             --brand-dark: #1d1d1f;
             --brand-gray: #86868b;
-            --bg-color: #fbfbfd; /* Heel licht grijs, typisch Apple */
+            --bg-color: #fbfbfd;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body, html {
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--brand-dark);
-            overflow: hidden; /* Voorkomt scrollbalken door animaties */
+            overflow: hidden;
         }
 
-        /* --- 2. ACHTERGROND SMILEY PATROON --- */
-        /* Dit creëert de zwevende smileys zonder extra plaatje */
-        .background-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.03; /* Zeer subtiel */
-            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="%23FF751F" stroke-width="4" fill="none"/><circle cx="35" cy="40" r="4" fill="%23FF751F"/><circle cx="65" cy="40" r="4" fill="%23FF751F"/><path d="M 30 60 Q 50 80 70 60" stroke="%23FF751F" stroke-width="4" fill="none" stroke-linecap="round"/></svg>');
-            background-size: 150px 150px; /* Grootte van de smileys */
-            animation: floatBackground 60s linear infinite;
-        }
-
-        @keyframes floatBackground {
-            0% { background-position: 0 0; }
-            100% { background-position: 100px 100px; }
-        }
-
-        /* --- 3. LAYOUT CONTAINER --- */
+        /* --- 2. LAYOUT CONTAINER --- */
         .wrapper {
             display: flex;
             flex-direction: column;
@@ -62,7 +38,7 @@
             position: relative;
         }
 
-        /* --- 4. HET LOGO MET GLOW --- */
+        /* --- 3. HET LOGO MET GLOW --- */
         .logo-container {
             position: relative;
             margin-bottom: 40px;
@@ -70,51 +46,55 @@
         }
 
         img.logo {
-            width: 140px; /* Groter en prominenter */
+            width: 140px;
             height: auto;
             position: relative;
             z-index: 2;
-            /* Zorg dat het logo mooi rond is als het vierkant is */
-            border-radius: 24px; 
+            border-radius: 28px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
-        /* De oranje gloed achter het logo */
         .logo-glow {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
+            width: 120px; height: 120px;
             background: var(--brand-orange);
             filter: blur(60px);
-            opacity: 0.4;
+            opacity: 0.3;
             z-index: 1;
             border-radius: 50%;
             animation: pulseGlow 4s infinite alternate;
         }
 
-        /* --- 5. TYPOGRAFIE & STATUS --- */
+        /* --- 4. TYPOGRAFIE & STATUS --- */
         .status-pill {
             display: inline-block;
             padding: 8px 16px;
-            background: rgba(255, 117, 31, 0.1); /* Oranje tintje */
-            border: 1px solid rgba(255, 117, 31, 0.2);
+            background: rgba(29, 29, 31, 0.05);
+            border: 1px solid rgba(29, 29, 31, 0.1);
             border-radius: 50px;
-            color: var(--brand-orange);
-            font-size: 0.8rem;
+            color: var(--brand-gray);
+            font-size: 0.75rem;
             font-weight: 600;
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 24px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.5s ease;
+        }
+
+        /* Klasse voor als we live zijn */
+        .status-pill.live {
+            background: var(--brand-orange);
+            color: white;
+            border-color: var(--brand-orange);
+            box-shadow: 0 0 20px rgba(255, 117, 31, 0.4);
         }
 
         h1 {
-            font-size: 4rem; /* Hero grootte */
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 700;
-            letter-spacing: -2px; /* Apple style tight tracking */
+            letter-spacing: -2px;
             margin: 0 0 16px 0;
             background: linear-gradient(135deg, #1d1d1f 0%, #4a4a4a 100%);
             -webkit-background-clip: text;
@@ -122,62 +102,88 @@
         }
 
         .tagline {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             color: var(--brand-gray);
             font-weight: 400;
             max-width: 600px;
-            line-height: 1.4;
-            margin: 0 auto 60px auto;
+            line-height: 1.5;
+            margin: 0 auto 50px auto;
         }
 
-        /* --- 6. COUNTDOWN TIMER --- */
+        /* --- 5. COUNTDOWN TIMER --- */
         .countdown {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             justify-content: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
         .time-unit {
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-width: 60px;
         }
 
         .time-value {
             font-size: 2.5rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--brand-dark);
-            font-variant-numeric: tabular-nums; /* Voorkomt verspringen van cijfers */
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
         }
 
         .time-label {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             color: var(--brand-gray);
             letter-spacing: 1px;
-            margin-top: 5px;
+            margin-top: 8px;
         }
 
-        /* --- 7. BUTTONS & CONTACT --- */
+        /* --- 6. BUTTONS & SOCIAL --- */
         .cta-button {
             display: inline-flex;
             align-items: center;
-            padding: 14px 32px;
+            padding: 16px 36px;
             background-color: var(--brand-dark);
             color: white;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: 500;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         .cta-button:hover {
-            transform: translateY(-2px);
-            background-color: var(--brand-orange); /* Hover naar brand color */
-            box-shadow: 0 15px 40px rgba(255, 117, 31, 0.3);
+            transform: translateY(-3px);
+            background-color: var(--brand-orange);
+            box-shadow: 0 15px 30px rgba(255, 117, 31, 0.3);
+        }
+
+        .social-link {
+            margin-top: 25px;
+            color: var(--brand-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+            opacity: 0.8;
+        }
+
+        .social-link:hover { color: #0077b5; opacity: 1; }
+
+        .launch-date {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: var(--brand-gray);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 500;
+            opacity: 0.6;
         }
 
         /* --- ANIMATIES --- */
@@ -187,22 +193,12 @@
         }
 
         @keyframes pulseGlow {
-            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.9); }
-            100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
-        }
-
-        /* Mobiele aanpassingen */
-        @media (max-width: 600px) {
-            h1 { font-size: 2.5rem; }
-            .tagline { font-size: 1.1rem; padding: 0 20px; }
-            .countdown { gap: 15px; }
-            .time-value { font-size: 1.8rem; }
+            0% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); }
+            100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.1); }
         }
     </style>
 </head>
 <body>
-
-    <div class="background-pattern"></div>
 
     <div class="wrapper">
         
@@ -211,7 +207,7 @@
             <img src="logo.png" alt="MA.AKT. Logo" class="logo">
         </div>
 
-        <div class="status-pill">Under Construction</div>
+        <div class="status-pill" id="statusPill">Under Construction</div>
 
         <h1>MA.AKT.</h1>
         <p class="tagline">Efficiënter. Professioneler. Goedkoper.<br>Ik bouw aan de nieuwe standaard.</p>
@@ -233,11 +229,16 @@
 
         <a href="mailto:info@ma-akt.nl" class="cta-button">Neem alvast contact op</a>
 
-        <p style="margin-top: 40px; font-size: 0.8rem; color: #ccc;">Lancering: 19 Februari 2026</p>
+        <a href="https://www.linkedin.com/company/ma-akt/" target="_blank" class="social-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            Volg het proces
+        </a>
+
+        <p class="launch-date">Lancering: 19 Februari 2026</p>
     </div>
 
     <script>
-        // De datum van lancering
+        // De nieuwe datum: 19 Februari 2026
         const launchDate = new Date("February 19, 2026 00:00:00").getTime();
 
         const timer = setInterval(function() {
@@ -249,16 +250,33 @@
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-            // Zet in de HTML
-            document.getElementById("days").innerText = days;
-            document.getElementById("hours").innerText = hours;
-            document.getElementById("minutes").innerText = minutes;
-
-            // Als de datum bereikt is
-            if (distance < 0) {
+            // Check of we nog aan het aftellen zijn
+            if (distance > 0) {
+                // Hier voegen we de 'leading zero' toe met padStart(2, '0')
+                // Dit maakt van '8' een '08'
+                document.getElementById("days").innerText = String(days).padStart(2, '0');
+                document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+                document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            } else {
+                // Als de tijd om is:
                 clearInterval(timer);
-                document.querySelector('.status-pill').innerText = "LIVE NU";
-                document.querySelector('.countdown').style.display = "none";
+                
+                // Verberg de countdown klok
+                document.getElementById('countdown').style.display = "none";
+                
+                // Update de status badge naar 'LIVE NU' met oranje kleur
+                const statusPill = document.getElementById('statusPill');
+                statusPill.innerText = "MA.AKT. IS LIVE";
+                statusPill.classList.add('live'); // Voegt de oranje styling toe
+
+                // Verander de tekst onder de titel
+                document.querySelector('.tagline').innerHTML = "De transformatie is begonnen.<br>Welkom bij MA.AKT.";
+                
+                // Pas de knop aan
+                const btn = document.querySelector('.cta-button');
+                btn.innerText = "Bekijk diensten";
+                // Je kunt hier later de href aanpassen naar je echte homepage
+                // btn.href = "/home"; 
             }
         }, 1000);
     </script>
